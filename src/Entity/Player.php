@@ -22,12 +22,7 @@ class Player
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $firstname;
+    private $name;
 
     /**
      * @ORM\Column(type="date")
@@ -84,6 +79,12 @@ class Player
      */
     private $video;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $poster;
+
     public function __construct()
     {
         $this->performance = new ArrayCollection();
@@ -96,26 +97,14 @@ class Player
         return $this->id;
     }
 
-    public function getLastname(): ?string
+    public function getName(): ?string
     {
-        return $this->lastname;
+        return $this->name;
     }
 
-    public function setLastname(string $lastname): self
+    public function setName(string $name): self
     {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
+        $this->name = $name;
 
         return $this;
     }
@@ -295,6 +284,18 @@ class Player
         if ($this->video->contains($video)) {
             $this->video->removeElement($video);
         }
+
+        return $this;
+    }
+
+    public function getPoster(): ?Image
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(Image $poster): self
+    {
+        $this->poster = $poster;
 
         return $this;
     }
