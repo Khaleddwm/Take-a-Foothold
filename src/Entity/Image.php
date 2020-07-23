@@ -39,9 +39,15 @@ class Image
      */
     private $players;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="poster", cascade={"persist", "remove"})
+     */
+    private $poster;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->poster = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +114,37 @@ class Image
         if ($this->players->contains($player)) {
             $this->players->removeElement($player);
             $player->removeImage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPoster(): Collection
+    {
+        return $this->poster;
+    }
+
+    public function addPoster(Player $poster): self
+    {
+        if (!$this->poster->contains($poster)) {
+            $this->poster[] = $poster;
+            $poster->setPoster($this);
+        }
+
+        return $this;
+    }
+
+    public function removePoster(Player $poster): self
+    {
+        if ($this->poster->contains($poster)) {
+            $this->poster->removeElement($poster);
+            // set the owning side to null (unless already changed)
+            if ($poster->getPoster() === $this) {
+                $poster->setPoster(null);
+            }
         }
 
         return $this;

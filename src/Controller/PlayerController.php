@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Player;
 use App\Form\PlayerType;
 use App\Form\SearchPlayerType;
+use App\Form\SearchPlayerAdvancedType;
+use App\Repository\ImageRepository;
 use App\Entity\Image;
 use App\Form\ImageType;
 use App\Service\FileUploader;
@@ -47,6 +49,35 @@ class PlayerController extends AbstractController
     }
 
     /**
+     * @Route("/search/advanced", name="search_player", methods={"GET", "POST"})
+     */
+    public function searchPlayer(PlayerRepository $playerRepository, Request $request): Response
+    {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+        $searchPlayerForm = $this->createForm(SearchPlayerAdvancedType::class,);
+        $searchPlayerForm->handleRequest($request);
+        $players = [];
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
+        if ($searchPlayerForm->isSubmitted() && $searchPlayerForm->isValid()) {
+            $criteria = $searchPlayerForm->getData();
+            
+            $players = $playerRepository->searchPlayerAdvanced($criteria);
+        }
+
+        return $this->render('player/search_player.html.twig', [
+            'players' => $players,
+            'search' => $searchPlayer->createView(),
+            'search_form' => $searchPlayerForm->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="player_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -60,7 +91,7 @@ class PlayerController extends AbstractController
             $entityManager->persist($player);
             $entityManager->flush();
 
-            return $this->redirectToRoute('player_add_poster', ['player' => $player->getId()]);
+            return $this->redirectToRoute('player_choice_poster', ['player' => $player->getId()]);
         }
 
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
@@ -101,15 +132,15 @@ class PlayerController extends AbstractController
                 $posterPath = $fileUploader->upload($posterFile, $poster->getName());
             } catch (IniSizeFileException | FormSizeFileException $e) {
                 $this->addFlash('warning', 'Votre fichier est trop lourd, il ne doit pas dépasser 1Mo.');
-                return $this->redirectToRoute('event_add_poster', ['payer' => $player->getId()]);
+                return $this->redirectToRoute('player_add_poster', ['payer' => $player->getId()]);
             } catch (ExtensionFileException $e) {
                 $this->addFlash('warning', 'Le format de votre fichier n\'est pas supporté.
                     Votre fichier doit être au format jpeg, jpg ou png.');
-                return $this->redirectToRoute('event_add_poster', ['player' => $player->getId()]);
+                return $this->redirectToRoute('player_add_poster', ['player' => $player->getId()]);
             } catch (PartialFileException | NoFileException | CannotWriteFileException $e) {
                 $this->addFlash('warning', 'Fichier non enregistré, veuillez réessayer.
                     Si le problème persiste, veuillez contacter l\'administrateur du site');
-                return $this->redirectToRoute('event_add_poster', ['player' => $player->getId()]);
+                return $this->redirectToRoute('player_add_poster', ['player' => $player->getId()]);
             }
             $poster->setPath($posterPath);
             $entityManager->persist($poster);
@@ -132,6 +163,42 @@ class PlayerController extends AbstractController
             'search' => $searchPlayer->createView(),
         ]);
     }
+
+     /**
+     * List of all posters, choice of a poster for a player
+     * @Route("/new/{player}", name="player_choice_poster", methods={"GET","POST"})
+     * 
+     */
+    public function choicePoster(player $player, ImageRepository $imageRepository, Request $request): Response
+    {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
+        return $this->render('player/image.html.twig', [
+            'images' => $imageRepository->findAll(),
+            'player' => $player,
+            'search' => $searchPlayer->createView(),
+        ]);
+    }
+
+    /**
+     * Add a poster to an player and redirection to list of poster
+     * @Route("/new/{player}/image/{image}", name="player_new_poster", methods={"GET","POST"})
+     * 
+     */
+    public function addPoster(player $player, Image $image, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $player->setPoster($image);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('player_index');
+    }
+
 
     /**
      * @Route("/{id}", name="player_show", methods={"GET", "POST"})

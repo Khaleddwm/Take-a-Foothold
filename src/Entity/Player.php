@@ -80,7 +80,7 @@ class Player
     private $video;
 
     /**
-     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="poster", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $poster;

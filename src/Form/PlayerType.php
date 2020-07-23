@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Player;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,14 +15,29 @@ class PlayerType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('dateOfBirth')
+            ->add('dateOfBirth', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+            ])
             ->add('nationality')
             ->add('current_team')
-            ->add('bestFoot')
+            ->add('bestFoot', ChoiceType::class, [
+                'choices' => [
+                    'droitier' => 'droitier',
+                    'gaucher' => 'gaucher',
+                ]
+            ])
             ->add('size')
             ->add('weight')
             ->add('price')
-            ->add('position')
+            ->add('position', ChoiceType::class, [
+                'choices' => [
+                    'Attaquant' => 'attaquant',
+                    'Milieu' => 'milieu',
+                    'Defenseur' => 'defenseur',
+                    'Gardien de but' => 'gardien',
+                ]
+            ])
         ;
     }
 
