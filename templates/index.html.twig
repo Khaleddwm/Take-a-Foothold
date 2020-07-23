@@ -44,5 +44,10 @@
                 </div>
             {% endif %}
         {% endfor %}
+        {% if app.request.method == 'POST' %}
+        {% for player in searchPlayer %}
+            {{ player.name }}
+        {% endfor %}
+        {% endif %}
     </section>
 {% endblock %}

@@ -3,9 +3,11 @@
 {% block title %}New Performance{% endblock %}
 
 {% block body %}
-    <h1>Create new Performance</h1>
+    <section class="container">
+        <h1>Create new Performance</h1>
 
-    {{ include('performance/_form.html.twig') }}
+        {{ include('performance/_form.html.twig') }}
 
-    <a href="{{ path('performance_index') }}">back to list</a>
+        <a href="{{ path('performance_index') }}">back to list</a>
+    </section>
 {% endblock %}

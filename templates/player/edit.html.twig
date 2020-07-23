@@ -3,11 +3,13 @@
 {% block title %}Edit Player{% endblock %}
 
 {% block body %}
-    <h1>Edit Player</h1>
+    <section class="container">
+        <h1>Edit Player</h1>
 
-    {{ include('player/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('player/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('player_index') }}">back to list</a>
+        <a href="{{ path('player_index') }}">back to list</a>
 
-    {{ include('player/_delete_form.html.twig') }}
+        {{ include('player/_delete_form.html.twig') }}
+    </section>
 {% endblock %}

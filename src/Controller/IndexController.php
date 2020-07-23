@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\SearchPlayerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\PlayerRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends AbstractController
 {
@@ -15,10 +17,42 @@ class IndexController extends AbstractController
      * @Route("/",name="index")
      * @return Response A response instance
      */
-    public function index(PlayerRepository $player) :Response
+    public function index(PlayerRepository $player, Request $request, PlayerRepository $playerRepository) :Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('index.html.twig', [
             'players' => $player->findAll(),
+            'search' => $searchPlayer->createView(),
+        ]);
+    }
+
+    /**
+     * Home page display
+     * 
+     * @Route("/search/{criteria}", name="search_index")
+     * @return Response A response instance
+     */
+    public function search(Request $request, PlayerRepository $playerRepository, string $criteria) :Response
+    {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+        $players = $playerRepository->searchPlayer($criteria);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
+        return $this->render('search.html.twig', [
+            'search' => $searchPlayer->createView(),
+            'searchPlayer' => $players,
         ]);
     }
 }

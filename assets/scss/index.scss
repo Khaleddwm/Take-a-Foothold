@@ -1,5 +1,10 @@
 body {
     background-color: lightcyan;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
     font-family: 'Electrolize', sans-serif;
     font-size: 25px;
     width: 100%;

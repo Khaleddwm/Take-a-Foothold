@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Player;
 use App\Form\PlayerType;
+use App\Form\SearchPlayerType;
 use App\Entity\Image;
 use App\Form\ImageType;
 use App\Service\FileUploader;
@@ -28,12 +29,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class PlayerController extends AbstractController
 {
     /**
-     * @Route("/", name="player_index", methods={"GET"})
+     * @Route("/", name="player_index", methods={"GET", "POST"})
      */
-    public function index(PlayerRepository $playerRepository): Response
+    public function index(PlayerRepository $playerRepository, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
         return $this->render('player/index.html.twig', [
             'players' => $playerRepository->findAll(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -54,9 +63,18 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('player_add_poster', ['player' => $player->getId()]);
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('player/new.html.twig', [
             'player' => $player,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -100,19 +118,37 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('player_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('player/add_poster.html.twig', [
             'poster' => $poster,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="player_show", methods={"GET"})
+     * @Route("/{id}", name="player_show", methods={"GET", "POST"})
      */
-    public function show(Player $player): Response
+    public function show(Player $player, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('player/show.html.twig', [
             'player' => $player,
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -130,9 +166,18 @@ class PlayerController extends AbstractController
             return $this->redirectToRoute('player_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('player/edit.html.twig', [
             'player' => $player,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <section class="search">
+        {% if searchPlayer is empty %}
+            <h2 class="text-center">Aucun joueur trouvé !!!</h2>
+        {% else %}
+            <h2 class="text-center">Liste des joueurs trouvés !!</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>DateOfBirth</th>
+                        <th>Nationality</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            {% for player in searchPlayer %}
+                <tbody>
+                    <tr>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
+                        <td>{{ player.nationality }}</td>
+                        <td><a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">Stats du joueur</a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>
+        {% endif %}
+    </section>
+{% endblock %}
