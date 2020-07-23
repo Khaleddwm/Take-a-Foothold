@@ -19,9 +19,9 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    // /**
-    //  * @return Player[] Returns an array of Player objects
-    //  */
+    /**
+     * Recupére les joueurs recherchés via la barre de recherche
+     */
     
     public function searchPlayer($criteria)
     {
@@ -34,16 +34,28 @@ class PlayerRepository extends ServiceEntityRepository
         ;
     }
     
-
-    /*
-    public function findOneBySomeField($value): ?Player
+    /**
+     * Recupére les joueurs recherchés via un formaulaire de recherche avancé
+     */
+    
+    public function searchPlayerAdvanced($criteria)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('p.position = :position')
+            ->setParameter('position', $criteria['position'])
+            ->andWhere('p.bestFoot = :bestFoot')
+            ->setParameter('bestFoot', $criteria['bestFoot'])
+            ->andWhere('p.weight > :minWeight')
+            ->setParameter('minWeight', $criteria['minWeight'])
+            ->andWhere('p.weight < :maxWeight')
+            ->setParameter('maxWeight', $criteria['maxWeight'])
+            ->andWhere('p.price > :minPrice')
+            ->setParameter('minPrice', $criteria['minPrice'])
+            ->andWhere('p.price < :maxPrice')
+            ->setParameter('maxPrice', $criteria['maxPrice'])
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
 }

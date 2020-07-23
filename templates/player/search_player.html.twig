@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Player{% endblock %}
+
+{% block body %}
+    <section class="container">
+        <h1 class"text-center">Recherche avancée</h1>
+        
+        {{ form_start(search_form) }}
+            {{ form_widget(search_form) }}
+            <button class="btn btn-outline-primary">{{ button_label|default('Rechercher') }}</button>
+        {{ form_end(search_form) }}
+        {% if app.request.method == 'POST' %}
+        <h1>Liste des joueurs</h1>
+            {% if players is empty %}
+                <h2 class="text-center">Aucun résultat pour votre recherche</h2>
+            {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>DateOfBirth</th>
+                        <th>Nationality</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for player in players %}
+                    <tr>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
+                        <td>{{ player.nationality }}</td>
+                        <td><a href="{{ path('player_show', { 'id' : player.id }) }}">Fiche du joueur</a></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        {% endif %}
+        <div style="margin-top:30px">
+            <a href="{{ path('index') }}">Revenir à l'accueil</a>
+        </div>
+    </section>
+{% endblock %}

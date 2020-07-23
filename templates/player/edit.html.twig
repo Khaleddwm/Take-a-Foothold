@@ -7,7 +7,13 @@
         <h1>Edit Player</h1>
 
         {{ include('player/_form.html.twig', {'button_label': 'Update'}) }}
-
+        <div>
+        {% if player.poster is empty %}
+        <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">Ajouter une image</a>
+        {% else %}
+        <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">modifier l'image</a>
+        {% endif %}
+        </div>
         <a href="{{ path('player_index') }}">back to list</a>
 
         {{ include('player/_delete_form.html.twig') }}
