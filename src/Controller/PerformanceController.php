@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Performance;
 use App\Form\PerformanceType;
+use App\Form\SearchPlayerType;
 use App\Repository\PerformanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,12 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class PerformanceController extends AbstractController
 {
     /**
-     * @Route("/", name="performance_index", methods={"GET"})
+     * @Route("/", name="performance_index", methods={"POST", "GET"})
      */
-    public function index(PerformanceRepository $performanceRepository): Response
+    public function index(PerformanceRepository $performanceRepository, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('performance/index.html.twig', [
             'performances' => $performanceRepository->findAll(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -42,19 +52,37 @@ class PerformanceController extends AbstractController
             return $this->redirectToRoute('performance_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('performance/new.html.twig', [
             'performance' => $performance,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="performance_show", methods={"GET"})
+     * @Route("/{id}", name="performance_show", methods={"GET", "POST"})
      */
-    public function show(Performance $performance): Response
+    public function show(Performance $performance, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('performance/show.html.twig', [
             'performance' => $performance,
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -72,9 +100,18 @@ class PerformanceController extends AbstractController
             return $this->redirectToRoute('performance_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('performance/edit.html.twig', [
             'performance' => $performance,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Form\ImageType;
+use App\Form\SearchPlayerType;
 use App\Repository\ImageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,12 +26,21 @@ use Symfony\Component\HttpFoundation\File\Exception\PartialFileException;
 class ImageController extends AbstractController
 {
     /**
-     * @Route("/", name="image_index", methods={"GET"})
+     * @Route("/", name="image_index", methods={"GET", "POST"})
      */
-    public function index(ImageRepository $imageRepository): Response
+    public function index(ImageRepository $imageRepository, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('image/index.html.twig', [
             'images' => $imageRepository->findAll(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -68,19 +78,37 @@ class ImageController extends AbstractController
             return $this->redirectToRoute('image_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('image/new.html.twig', [
             'image' => $image,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="image_show", methods={"GET"})
      */
-    public function show(Image $image): Response
+    public function show(Image $image, Request $request): Response
     {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('image/show.html.twig', [
             'image' => $image,
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
@@ -98,9 +126,18 @@ class ImageController extends AbstractController
             return $this->redirectToRoute('image_index');
         }
 
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
         return $this->render('image/edit.html.twig', [
             'image' => $image,
             'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
         ]);
     }
 
