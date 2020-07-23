@@ -220,6 +220,26 @@ class PlayerController extends AbstractController
     }
 
     /**
+     * @Route("/{player}/stats", name="player_stats", methods={"GET", "POST"})
+     */
+    public function showStats(Player $player, Request $request, PlayerRepository $playerRepository): Response
+    {
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+        
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
+        return $this->render('player/stats.html.twig', [
+            'search' => $searchPlayer->createView(),
+            'playerStats' => $playerRepository->playerStats($player),
+        ]);
+    }
+
+    
+    /**
      * @Route("/{id}/edit", name="player_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Player $player): Response

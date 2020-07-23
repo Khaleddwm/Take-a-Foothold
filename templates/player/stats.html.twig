@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player{% endblock %}
+
+{% block body %}
+    <section>
+        <h1 class="text-center">Player Stats</h1>
+
+        <table class="table">
+            <tbody>
+            {% if playerStats.name is not empty %}
+                <tr>
+                    <th>Nom et Prénom</th>
+                    <td>{{ playerStats.name }}</td>
+                </tr>
+                <tr>
+                    <th>Club actuel</th>
+                    <td>{{ playerStats.current_team }}</td>
+                </tr>
+                
+                <tr>
+                    <th>Nombre de match(s) joué(s)</th>
+                    <td>{{ playerStats.matchs }} match(s)</td>
+                </tr>
+                <tr>
+                    <th>Temps de jeu</th>
+                    <td>{{ playerStats.times }} minute(s)</td>
+                </tr>
+                <tr>
+                    <th>But(s) marqué(s)</th>
+                    <td>{{ playerStats.goals }} but(s)</td>
+                </tr>
+                <tr>
+                    <th>Ratio but(s) par match(s)</th>
+                    <td>{{ (playerStats.goals // playerStats.matchs) }}.{{ (playerStats.goals % playerStats.matchs) }} but(s) par match(s) </td>
+                </tr>
+                <tr>
+                    <th>Ratio but par minute(s)</th>
+                    <td>1 but toutes les {{ (playerStats.times // playerStats.goals) }} minute(s)</td>
+                </tr>
+                <tr>
+                    <th>Passe(s) décisive(s)</th>
+                    <td>{{ playerStats.assists }} passe(s) décisive(s)</td>
+                </tr>
+                <tr>
+                    <th>Ratio passe(s) décisive(s) par match(s)</th>
+                    <td>{{ (playerStats.assists // playerStats.matchs) }}.{{ (playerStats.assists % playerStats.matchs) }} passe(s) décisive(s) par match(s) </td>
+                </tr>
+                <tr>
+                    <th>Ratio passe(s) par minute(s)</th>
+                    <td>1 passe décisive toutes les {{ (playerStats.times // playerStats.assists) }} minute(s)</td>
+                </tr>
+            {% else %}
+                <h2 class="text-center">Ce joueur n'a pas encore de stats</h2>
+            {% endif %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('player_index') }}">Revenir à la liste</a>
+    </section>
+
+{% endblock %}

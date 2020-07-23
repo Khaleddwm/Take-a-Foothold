@@ -57,5 +57,22 @@ class PlayerRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function playerStats(Player $player)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.performance', 'pf')
+            ->addSelect('pf')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $player)
+            ->select('p.name,
+                p.current_team,
+                COUNT(p.id) as matchs,
+                SUM(pf.assist) as assists,
+                SUM(pf.goal) as goals,
+                SUM(pf.timePlayed) as times')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
     
 }

@@ -22,8 +22,9 @@
                     <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
                     <td>{{ player.nationality }}</td>
                     <td>
-                        <a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">show</a>
-                        <a class="btn btn-outline-primary" href="{{ path('player_edit', {'id': player.id}) }}">edit</a>
+                        <a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">Fiche</a>
+                        <a class="btn btn-outline-primary" href="{{ path('player_edit', {'id': player.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-primary" href="{{ path('player_stats', {'player': player.id}) }}">Stats du joueur</a>
                     </td>
                 </tr>
             {% else %}
