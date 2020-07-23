@@ -3,49 +3,36 @@
 {% block title %}Player index{% endblock %}
 
 {% block body %}
-    <h1>Player index</h1>
+    <section class="player">
+        <h1>Liste des joueurs</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>DateOfBirth</th>
-                <th>Nationality</th>
-                <th>Current_team</th>
-                <th>BestFoot</th>
-                <th>Size</th>
-                <th>Weight</th>
-                <th>Price</th>
-                <th>Position</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for player in players %}
-            <tr>
-                <td>{{ player.id }}</td>
-                <td>{{ player.name }}</td>
-                <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
-                <td>{{ player.nationality }}</td>
-                <td>{{ player.currentTeam }}</td>
-                <td>{{ player.bestFoot }}</td>
-                <td>{{ player.size }}</td>
-                <td>{{ player.weight }}</td>
-                <td>{{ player.price }}</td>
-                <td>{{ player.position }}</td>
-                <td>
-                    <a href="{{ path('player_show', {'id': player.id}) }}">show</a>
-                    <a href="{{ path('player_edit', {'id': player.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>DateOfBirth</th>
+                    <th>Nationality</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
+                    <td>{{ player.nationality }}</td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">show</a>
+                        <a class="btn btn-outline-primary" href="{{ path('player_edit', {'id': player.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('player_new') }}">Create new</a>
+        <a href="{{ path('player_new') }}">Create new</a>
+    </section>
 {% endblock %}
