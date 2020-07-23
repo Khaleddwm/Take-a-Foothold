@@ -20,7 +20,7 @@
                         <td>{{ player.name }}</td>
                         <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
                         <td>{{ player.nationality }}</td>
-                        <td><a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">Stats du joueur</a></td>
+                        <td><a class="btn btn-outline-primary" href="{{ path('player_stats', {'player': player.id}) }}">Stats du joueur</a></td>
                     </tr>
                 </tbody>
             {% endfor %}

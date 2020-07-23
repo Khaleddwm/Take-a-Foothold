@@ -17,7 +17,7 @@ class IndexController extends AbstractController
      * @Route("/",name="index")
      * @return Response A response instance
      */
-    public function index(PlayerRepository $player, Request $request, PlayerRepository $playerRepository) :Response
+    public function index(Request $request, PlayerRepository $playerRepository) :Response
     {
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
         $searchPlayer->handleRequest($request);
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
         }
 
         return $this->render('index.html.twig', [
-            'players' => $player->findAll(),
+            'players' => $playerRepository->findAll(),
             'search' => $searchPlayer->createView(),
         ]);
     }
