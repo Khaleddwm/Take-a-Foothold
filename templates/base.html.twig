@@ -4,20 +4,22 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Satisfy&display=swap" rel="stylesheet">
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
+    
     <body>
-        <header>
-            {% include "navbar.html.twig" %}
-            {% for category, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+    <header>
+        {% include "navbar.html.twig" %}
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
             {% endfor %}
-        </header>
+        {% endfor %}
+    </header>
         {% block body %}{% endblock %}
         {% include "footer.html.twig" %}
         {% block javascripts %}

@@ -1,7 +1,7 @@
 <?php
 /**
- * Auteur: Khaled Benharrat, Damien Sarrazy, Kevin Chalumeau
- * Date: 30/06/2020
+ * Auteur: Khaled Benharrat
+ * Date: 22/07/2020
  */
 
 //src/Service/Slugify.php

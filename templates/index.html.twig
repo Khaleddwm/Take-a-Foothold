@@ -1,5 +1,48 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h1>Hello !</h1>
-    <h2>Initialize the project</h2>
+    <section class="index">
+        <h1 class="text-center">Site de referencement des meilleurs joueurs de la planete</h1>
+        <h2 class="text-center">Joueurs en forme</h2>
+        {% for player in players %}
+            {% if loop.index is divisible by(2) %}
+                <div class="d-flex justify-content-between container">
+                    <div class="">
+                        <h2 class="">{{ player.name }}</h2>
+                        <h5>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</h5>
+                        <h5>{{ player.nationality }}</h5>
+                        <h5>{{ player.currentTeam }}</h5>
+                        <h5>{{ player.bestFoot }}</h5>
+                        <h5>{{ player.size }}</h5>
+                        <h5>{{ player.weight }}</h5>
+                        <h5>{{ player.price }}</h5>
+                        <h5>{{ player.position }}</h5>
+                    </div>
+                {% if player.poster is not empty %}
+                    <div>
+                        <img src="{{ asset ('/uploads/images/' ~ player.poster.path) }}" />
+                    </div>
+                {% endif %}
+                </div>
+            {% else %}
+                <div class="d-flex justify-content-between container">
+                {% if player.poster is not empty %}
+                    <div class="">
+                        <img src="{{ asset ('/uploads/images/' ~ player.poster.path) }}" />
+                    </div>
+                {% endif %}
+                    <div class="flex-start">
+                        <h2 class="">{{ player.name }}</h2>
+                        <h5>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</h5>
+                        <h5>{{ player.nationality }}</h5>
+                        <h5>{{ player.currentTeam }}</h5>
+                        <h5>{{ player.bestFoot }}</h5>
+                        <h5>{{ player.size }}</h5>
+                        <h5>{{ player.weight }}</h5>
+                        <h5>{{ player.price }}</h5>
+                        <h5>{{ player.position }}</h5>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </section>
 {% endblock %}

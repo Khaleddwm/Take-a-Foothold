@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>player Id</th>
                 <th>Saison</th>
                 <th>Assist</th>
                 <th>Goal</th>
@@ -20,6 +21,7 @@
         {% for performance in performances %}
             <tr>
                 <td>{{ performance.id }}</td>
+                <td>{{ performance.player.name }}</td>
                 <td>{{ performance.saison }}</td>
                 <td>{{ performance.assist }}</td>
                 <td>{{ performance.goal }}</td>
@@ -33,7 +35,7 @@
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
-        {% endfor %}
+        {% endfor %} 
         </tbody>
     </table>
 
