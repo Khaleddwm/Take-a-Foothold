@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,46 +22,109 @@ class Player
     private $id;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 100,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = null,
+     *      max = "now"
+     * )
      * @ORM\Column(type="date")
      */
     private $dateOfBirth;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nationality;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $current_team;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 30,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $bestFoot;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 100,
+     *      max = 250,
+     *      notInRangeMessage = "You must be between {{ min }} cm and {{ max }} cm tall to enter",
+     * )
      * @ORM\Column(type="integer")
      */
     private $size;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 30,
+     *      max = 150,
+     *      notInRangeMessage = "You must be between {{ min }} kg and {{ max }} kg tall to enter",
+     * )
      * @ORM\Column(type="integer")
      */
     private $weight;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 1000000,
+     *      max = 250000000,
+     *      notInRangeMessage = "You must be between {{ min }} € and {{ max }} € tall to enter",
+     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $price;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $position;

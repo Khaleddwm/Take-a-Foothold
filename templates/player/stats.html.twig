@@ -4,15 +4,11 @@
 
 {% block body %}
     <section>
-        <h1 class="text-center">Player Stats</h1>
+        {% if playerStats.name is not empty %}
+        <h1 class="text-center">Stats de {{ playerStats.name }}</h1>
 
         <table class="table">
             <tbody>
-            {% if playerStats.name is not empty %}
-                <tr>
-                    <th>Nom et Prénom</th>
-                    <td>{{ playerStats.name }}</td>
-                </tr>
                 <tr>
                     <th>Club actuel</th>
                     <td>{{ playerStats.current_team }}</td>
@@ -32,7 +28,7 @@
                 </tr>
                 <tr>
                     <th>Ratio but(s) par match(s)</th>
-                    <td>{{ (playerStats.goals // playerStats.matchs) }}.{{ (playerStats.goals % playerStats.matchs) }} but(s) par match(s) </td>
+                    <td>{{ (playerStats.goals / playerStats.matchs)|round(2, 'floor') }} but(s) par match(s) </td>
                 </tr>
                 <tr>
                     <th>Ratio but par minute(s)</th>
@@ -44,10 +40,10 @@
                 </tr>
                 <tr>
                     <th>Ratio passe(s) décisive(s) par match(s)</th>
-                    <td>{{ (playerStats.assists // playerStats.matchs) }}.{{ (playerStats.assists % playerStats.matchs) }} passe(s) décisive(s) par match(s) </td>
+                    <td>{{ (playerStats.assists / playerStats.matchs)|round(2, 'floor') }} passe(s) décisive(s) par match(s) </td>
                 </tr>
                 <tr>
-                    <th>Ratio passe(s) par minute(s)</th>
+                    <th>Ratio passe décisive par minute(s)</th>
                     <td>1 passe décisive toutes les {{ (playerStats.times // playerStats.assists) }} minute(s)</td>
                 </tr>
             {% else %}
@@ -55,8 +51,20 @@
             {% endif %}
             </tbody>
         </table>
-
-        <a href="{{ path('player_index') }}">Revenir à la liste</a>
+        {% if app.user %}
+        <div>
+            <a href="{{ path('performance_new_player', {'player': playerStats.id}) }}">Ajouter stats</a>
+        </div>
+        <div>
+            <a href="{{ path('player_edit', {'id' : playerStats.id}) }}">Modifier la fiche du joueur</a>
+        </div>
+        {% endif %}
+        <div>
+            <a href="{{ path('player_index') }}">Liste des joueurs</a>
+        </div>
+        <div>
+            <a href="{{ path('index') }}">Revenir à l'accueil</a>
+        </div>
     </section>
 
 {% endblock %}

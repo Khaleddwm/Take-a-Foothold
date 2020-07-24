@@ -8,6 +8,7 @@ use App\Form\SearchPlayerType;
 use App\Repository\ImageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,7 @@ class ImageController extends AbstractController
 {
     /**
      * @Route("/", name="image_index", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(ImageRepository $imageRepository, Request $request): Response
     {
@@ -47,7 +49,7 @@ class ImageController extends AbstractController
     /**
      * Upload image to library, add unique name
      * @Route("/new", name="image_new", methods={"GET","POST"})
-     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
@@ -95,6 +97,7 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}", name="image_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Image $image, Request $request): Response
     {
@@ -114,6 +117,7 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="image_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Image $image): Response
     {
@@ -143,6 +147,7 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/{id}", name="image_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Image $image): Response
     {
@@ -150,7 +155,7 @@ class ImageController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $players = $image->getPoster();
             foreach ($players as $player) {
-                $player->setPoster($image);
+                $entityManager->remove($player);
             }
             $entityManager->remove($image);
             $entityManager->flush();

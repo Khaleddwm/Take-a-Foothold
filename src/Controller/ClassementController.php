@@ -3,22 +3,23 @@
 namespace App\Controller;
 
 use App\Form\SearchPlayerType;
-use App\Entity\Player;
+use App\Repository\PerformanceRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\PlayerRepository;
-use Symfony\Component\HttpFoundation\Request;
 
-class IndexController extends AbstractController
+/**
+ * @Route("/classement")
+ */
+class ClassementController extends AbstractController
 {
     /**
-     * Home page display
+     * @Route("/goals", name="classement_goals", methods={"POST", "GET"})
      * 
-     * @Route("/",name="index")
-     * @return Response A response instance
      */
-    public function index(Request $request, PlayerRepository $playerRepository) :Response
+    public function goals(PerformanceRepository $performanceRepository, Request $request): Response
     {
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
         $searchPlayer->handleRequest($request);
@@ -28,32 +29,29 @@ class IndexController extends AbstractController
             return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
         }
 
-        return $this->render('index.html.twig', [
-            'players' => $playerRepository->findBy([], [], 5),
+        return $this->render('classement/goals.html.twig', [
+            'classement' => $performanceRepository->classementGoals(),
             'search' => $searchPlayer->createView(),
         ]);
     }
 
     /**
-     * Home page display
+     * @Route("/assists", name="classement_assists", methods={"POST", "GET"})
      * 
-     * @Route("/search/{criteria}", name="search_index")
-     * @return Response A response instance
      */
-    public function search(Request $request, PlayerRepository $playerRepository, string $criteria) :Response
+    public function assists(PerformanceRepository $performanceRepository, Request $request): Response
     {
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
         $searchPlayer->handleRequest($request);
-        $players = $playerRepository->searchPlayer($criteria);
 
         if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
             $criteria = $searchPlayer->getData();
             return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
         }
 
-        return $this->render('search.html.twig', [
+        return $this->render('classement/assists.html.twig', [
+            'classement' => $performanceRepository->classementAssists(),
             'search' => $searchPlayer->createView(),
-            'searchPlayer' => $players,
         ]);
     }
 }

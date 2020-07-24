@@ -3,41 +3,39 @@
 {% block title %}Performance index{% endblock %}
 
 {% block body %}
-    <h1>Performance index</h1>
+    <h1 class="text-center">Liste des performances</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom du joueur</th>
                 <th>Saison</th>
-                <th>Assist</th>
-                <th>Goal</th>
-                <th>TimePlayed</th>
-                <th>actions</th>
+                <th>Passe(s) décisive(s)</th>
+                <th>But(s) marqué(s)</th>
+                <th>Temps de jeu</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for performance in performances %}
             <tr>
-                <td>{{ performance.id }}</td>
                 <td>{{ performance.player.name }}</td>
                 <td>{{ performance.saison }}</td>
                 <td>{{ performance.assist }}</td>
                 <td>{{ performance.goal }}</td>
                 <td>{{ performance.timePlayed }}</td>
                 <td>
-                    <a href="{{ path('performance_show', {'id': performance.id}) }}">show</a>
-                    <a href="{{ path('performance_edit', {'id': performance.id}) }}">edit</a>
+                    <a href="{{ path('performance_show', {'id': performance.id}) }}">Fiche</a>
+                    <a href="{{ path('performance_edit', {'id': performance.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucune performances trouvées</td>
             </tr>
         {% endfor %} 
         </tbody>
     </table>
 
-    <a href="{{ path('performance_new') }}">Create new</a>
+    <a href="{{ path('performance_new') }}">Create des performances</a>
 {% endblock %}

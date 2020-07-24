@@ -18,19 +18,22 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>DateOfBirth</th>
-                        <th>Nationality</th>
-                        <th>Action</th>
+                        <th>Nom du joueur</th>
+                        <th>Date de naissance</th>
+                        <th>Nationalité</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for player in players %}
                     <tr>
                         <td>{{ player.name }}</td>
-                        <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
+                        <td>{{ player.dateOfBirth ? player.dateOfBirth|date('d/m/Y') : '' }}</td>
                         <td>{{ player.nationality }}</td>
-                        <td><a href="{{ path('player_show', { 'id' : player.id }) }}">Fiche du joueur</a></th>
+                        <td>
+                            <a class="btn btn-outline-primary" href="{{ path('player_show', { 'id' : player.id }) }}">Fiche du joueur</a>
+                            <a class="btn btn-outline-primary" href="{{ path('player_stats', {'player': player.id}) }}">Stats du joueur</a>
+                        </th>
                     </tr>
                 {% endfor %}
                 </tbody>

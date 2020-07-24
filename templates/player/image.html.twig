@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1>Image index</h1>
+    <h1 class="text-center">Choisir un avatar à {{ player.name }}</h1>
     <div class="card-deck">
     {% for image in images %}
         <div class="col-xs-12 col-lg-4">
@@ -18,12 +18,11 @@
                 </div>
             </div>
         </div>
-        <div>
-            <a href="{{ path('player_add_poster', { 'player' : player.id}) }}">Ajouter une image</a>
-        </div>
     {% else %}
-        <h2 class="text-center">no records found</td>
+        <h2 class="text-center">Aucune image trouvée</td>
     {% endfor %}
     </div>
-    <a href="{{ path('image_new') }}">Create new</a>
+    <div>
+        <a href="{{ path('player_add_poster', { 'player' : player.id}) }}">Ajouter une image</a>
+    </div>
 {% endblock %}

@@ -4,17 +4,17 @@
 
 {% block body %}
     <section class="container">
-        <h1>Edit Player</h1>
+        <h1 class="text-center">Modifier un joueur</h1>
 
-        {{ include('player/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('player/_form.html.twig', {'button_label': 'Valider'}) }}
         <div>
         {% if player.poster is empty %}
-        <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">Ajouter une image</a>
+            <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">Ajouter une image</a>
         {% else %}
-        <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">modifier l'image</a>
+            <a href="{{ path('player_choice_poster', { 'player' : player.id }) }}">Modifier l'image</a>
         {% endif %}
-        </div>
-        <a href="{{ path('player_index') }}">back to list</a>
+            </div>
+            <a href="{{ path('player_index') }}">Retour à la liste</a>
 
         {{ include('player/_delete_form.html.twig') }}
     </section>

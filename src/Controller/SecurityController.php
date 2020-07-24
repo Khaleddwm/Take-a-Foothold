@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\SearchPlayerType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +43,7 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/logout", name="app_logout")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function logout()
     {

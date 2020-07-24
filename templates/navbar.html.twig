@@ -22,8 +22,8 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Classement</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Buteurs</a>
-                    <a class="dropdown-item" href="{{ path('player_index')}}">Passeurs</a>
+                    <a class="dropdown-item" href="{{ path('classement_goals')}}">Buteurs</a>
+                    <a class="dropdown-item" href="{{ path('classement_assists')}}">Passeurs</a>
                     <div class="dropdown-divider">
                     </div>
                     <a class="dropdown-item" href="#">Indice de performance</a>
@@ -37,9 +37,17 @@
                     <a class="dropdown-item" href="{{ path('image_new')}}">Ajouter une image</a>
                     <a class="dropdown-item" href="{{ path('performance_new')}}">Ajouter une video</a>
                     <a class="dropdown-item" href="{{ path('performance_new')}}">Ajouter des performances</a>
+                    <a class="dropdown-item" href="{{ path('image_index')}}">Bibliothéque d'images</a>
                     <div class="dropdown-divider">
                     </div>
                     <a class="dropdown-item" href="{{ path('app_logout')}}">Se deconnecter</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Medias</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Vidéothèque</a>
+                    <a class="dropdown-item" href="{{ path('image_index')}}">Bibliothéque d'images</a>
                 </div>
             </li>
             {% endif %}
@@ -49,7 +57,7 @@
         {{ form_start(search) }}
             <div class="d-flex">
             {{ form_widget(search) }}
-                <button class="btn btn-success" type="submit">Valider</button>
+                <button class="btn btn-success" type="submit">Recherche</button>
             </div>
         {{ form_end(search) }}
         </div>

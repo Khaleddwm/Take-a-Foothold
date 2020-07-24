@@ -17,17 +17,19 @@ class SearchPlayerAdvancedType extends AbstractType
     {   
         $builder
             ->add('position', ChoiceType::class, [
+                'label' => 'Poste',
                 'choices' => [
-                    'Attaquant' => 'attaquant',
-                    'Milieu' => 'milieu',
-                    'Defenseur' => 'defenseur',
-                    'Gardien de but' => 'gardien',
+                    'Attaquant' => 'Attaquant',
+                    'Milieu' => 'Milieu',
+                    'Defenseur' => 'Defenseur',
+                    'Gardien de but' => 'Gardien',
                 ]
             ])
             ->add('bestFoot', ChoiceType::class, [
+                'label' => 'Pied fort',
                 'choices' => [
-                    'Droitier' => 'droitier',
-                    'Gaucher' => 'gaucher',
+                    'Droitier' => 'Droitier',
+                    'Gaucher' => 'Gaucher',
                 ]
             ])
             ->add('minWeight', ChoiceType::class, [
