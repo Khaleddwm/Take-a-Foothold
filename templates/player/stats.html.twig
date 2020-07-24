@@ -27,25 +27,42 @@
                     <td>{{ playerStats.goals }} but(s)</td>
                 </tr>
                 <tr>
-                    <th>Ratio but(s) par match(s)</th>
-                    <td>{{ (playerStats.goals / playerStats.matchs)|round(2, 'floor') }} but(s) par match(s) </td>
+                    <th>Ratio but(s) par match</th>
+                {% if playerStats.goals == 0 %}
+                    <td>0 but par match </td>
+                {% else %}
+                    <td>{{ (playerStats.goals / playerStats.matchs)|round(2, 'floor') }} but(s) par match </td>
+                {% endif %}
                 </tr>
                 <tr>
                     <th>Ratio but par minute(s)</th>
+                {% if playerStats.goals == 0 %}
+                    <td>0 but toutes les {{ playerStats.times }} minute(s)</td>
+                {% else %}
                     <td>1 but toutes les {{ (playerStats.times // playerStats.goals) }} minute(s)</td>
+                {% endif %}
                 </tr>
                 <tr>
                     <th>Passe(s) décisive(s)</th>
                     <td>{{ playerStats.assists }} passe(s) décisive(s)</td>
                 </tr>
                 <tr>
-                    <th>Ratio passe(s) décisive(s) par match(s)</th>
-                    <td>{{ (playerStats.assists / playerStats.matchs)|round(2, 'floor') }} passe(s) décisive(s) par match(s) </td>
+                    <th>Ratio passe(s) décisive(s) par match</th>
+                {% if playerStats.assists == 0 %}
+                    <td>0 passe décisive par match</td>
+                {% else %}
+                    <td>{{ (playerStats.assists / playerStats.matchs)|round(2, 'floor') }} passe(s) décisive(s) par match</td>
+                {% endif %}
                 </tr>
                 <tr>
                     <th>Ratio passe décisive par minute(s)</th>
+                {% if playerStats.assists == 0 %}
+                    <td>0 passe décisive toutes les {{ playerStats.times }} minute(s)</td>
+                {% else %}
                     <td>1 passe décisive toutes les {{ (playerStats.times // playerStats.assists) }} minute(s)</td>
+                {% endif %}
                 </tr>
+                <tr><th><td></td></th></tr>
             {% else %}
                 <h2 class="text-center">Ce joueur n'a pas encore de stats</h2>
             {% endif %}
