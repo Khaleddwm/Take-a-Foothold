@@ -53,10 +53,10 @@
         </table>
         {% if app.user %}
         <div>
-            <a href="{{ path('performance_new_player', {'player': playerStats.id}) }}">Ajouter stats</a>
+            <a href="{{ path('performance_new_player', {'player': player.id}) }}">Ajouter stats</a>
         </div>
         <div>
-            <a href="{{ path('player_edit', {'id' : playerStats.id}) }}">Modifier la fiche du joueur</a>
+            <a href="{{ path('player_edit', {'id' : player.id}) }}">Modifier la fiche du joueur</a>
         </div>
         {% endif %}
         <div>

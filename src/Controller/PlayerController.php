@@ -240,6 +240,7 @@ class PlayerController extends AbstractController
         return $this->render('player/stats.html.twig', [
             'search' => $searchPlayer->createView(),
             'playerStats' => $playerRepository->playerStats($player),
+            'player' => $player,
         ]);
     }
 

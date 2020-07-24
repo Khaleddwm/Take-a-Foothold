@@ -28,7 +28,10 @@ class PerformanceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->innerJoin('p.player', 'pl')
             ->addSelect('pl')
-            ->select('pl.id, pl.name, pl.current_team, SUM(p.goal) AS total')
+            ->select('pl.id,
+                pl.name,
+                pl.current_team,
+                SUM(p.goal) AS total')
             ->groupBy('p.player')
             ->getQuery()
             ->getResult()
@@ -36,7 +39,7 @@ class PerformanceRepository extends ServiceEntityRepository
     }
 
     /**
-     * Classement des buteurs
+     * Classement des passeurs
      * @return Performance[] Returns an array of Performance objects
      */
     public function classementAssists()
@@ -44,7 +47,10 @@ class PerformanceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->innerJoin('p.player', 'pl')
             ->addSelect('pl')
-            ->select('pl.id, pl.name, pl.current_team, SUM(p.assist) AS total')
+            ->select('pl.id,
+                pl.name,
+                pl.current_team,
+                SUM(p.assist) AS total')
             ->groupBy('p.player')
             ->getQuery()
             ->getResult()
