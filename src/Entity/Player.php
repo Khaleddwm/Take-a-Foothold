@@ -145,8 +145,7 @@ class Player
     private $video;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="poster", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="playerPosters")
      */
     private $poster;
 
@@ -358,7 +357,7 @@ class Player
         return $this->poster;
     }
 
-    public function setPoster(Image $poster): self
+    public function setPoster(?Image $poster): self
     {
         $this->poster = $poster;
 

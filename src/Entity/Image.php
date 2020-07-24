@@ -57,14 +57,15 @@ class Image
     private $players;
 
     /**
-     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="poster", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="poster")
      */
-    private $poster;
+    private $playerPosters;
 
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->poster = new ArrayCollection();
+        $this->playerPosters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,28 +140,28 @@ class Image
     /**
      * @return Collection|Player[]
      */
-    public function getPoster(): Collection
+    public function getPlayerPosters(): Collection
     {
-        return $this->poster;
+        return $this->playerPosters;
     }
 
-    public function addPoster(Player $poster): self
+    public function addPlayerPoster(Player $playerPoster): self
     {
-        if (!$this->poster->contains($poster)) {
-            $this->poster[] = $poster;
-            $poster->setPoster($this);
+        if (!$this->playerPosters->contains($playerPoster)) {
+            $this->playerPosters[] = $playerPoster;
+            $playerPoster->setPoster($this);
         }
 
         return $this;
     }
 
-    public function removePoster(Player $poster): self
+    public function removePlayerPoster(Player $playerPoster): self
     {
-        if ($this->poster->contains($poster)) {
-            $this->poster->removeElement($poster);
+        if ($this->playerPosters->contains($playerPoster)) {
+            $this->playerPosters->removeElement($playerPoster);
             // set the owning side to null (unless already changed)
-            if ($poster->getPoster() === $this) {
-                $poster->setPoster(null);
+            if ($playerPoster->getPoster() === $this) {
+                $playerPoster->setPoster(null);
             }
         }
 
