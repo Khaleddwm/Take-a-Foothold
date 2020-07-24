@@ -157,9 +157,9 @@ class ImageController extends AbstractController
             foreach ($players as $player) {
                 $entityManager->remove($player);
             }
-            $posters = $image->getPlayerPosters();
-            foreach ($posters as $poster) {
-                $entityManager->remove($poster);
+            $players = $image->getPlayerPosters();
+            foreach ($players as $player) {
+                $entityManager->remove($player);
             }
             $entityManager->remove($image);
             $entityManager->flush();

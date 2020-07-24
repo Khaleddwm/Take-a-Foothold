@@ -33,6 +33,7 @@ class PerformanceRepository extends ServiceEntityRepository
                 pl.current_team,
                 SUM(p.goal) AS total')
             ->groupBy('p.player')
+            ->orderBy('total', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -52,6 +53,7 @@ class PerformanceRepository extends ServiceEntityRepository
                 pl.current_team,
                 SUM(p.assist) AS total')
             ->groupBy('p.player')
+            ->orderBy('total', 'DESC')
             ->getQuery()
             ->getResult()
         ;
