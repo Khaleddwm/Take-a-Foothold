@@ -3,56 +3,54 @@
 {% block title %}Player{% endblock %}
 
 {% block body %}
-    <h1>Player</h1>
+    <h1 class="text-center">{{ player.name }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ player.id }}</td>
+                <th>Date de naissance</th>
+                <td>{{ player.dateOfBirth ? player.dateOfBirth|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ player.name }}</td>
-            </tr>
-            <tr>
-                <th>DateOfBirth</th>
-                <td>{{ player.dateOfBirth ? player.dateOfBirth|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Nationality</th>
+                <th>Nationalité</th>
                 <td>{{ player.nationality }}</td>
             </tr>
             <tr>
-                <th>Current_team</th>
+                <th>Club actuel</th>
                 <td>{{ player.currentTeam }}</td>
             </tr>
             <tr>
-                <th>BestFoot</th>
+                <th>Pied fort</th>
                 <td>{{ player.bestFoot }}</td>
             </tr>
             <tr>
-                <th>Size</th>
-                <td>{{ player.size }}</td>
+                <th>Taille</th>
+                <td>{{ player.size }} cm</td>
             </tr>
             <tr>
-                <th>Weight</th>
-                <td>{{ player.weight }}</td>
+                <th>Poids</th>
+                <td>{{ player.weight }} kg</td>
             </tr>
             <tr>
-                <th>Price</th>
-                <td>{{ player.price }}</td>
+                <th>Prix éstimé</th>
+                <td>{{ player.price }} €</td>
             </tr>
             <tr>
-                <th>Position</th>
+                <th>Poste</th>
                 <td>{{ player.position }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('player_index') }}">back to list</a>
-
-    <a href="{{ path('player_edit', {'id': player.id}) }}">edit</a>
-
+    <div>
+        <a href="{{ path('player_index') }}">Retour à la liste</a>
+    </div>
+    <div>
+        <a href="{{ path('index') }}">Retour à la l'accueil</a>
+    </div>
+    {% if app.user %}
+    <div>
+        <a href="{{ path('player_edit', {'id': player.id}) }}">Modifier</a>
+    </div>
     {{ include('player/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

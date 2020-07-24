@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PerformanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,21 +22,34 @@ class Performance
     private $id;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 1850,
+     *      max = "now",
+     *      notInRangeMessage = "You must be between {{ min }} and {{ max }} to enter",
+     * )
      * @ORM\Column(type="integer")
      */
     private $saison;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="integer")
      */
     private $assist;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="integer")
      */
     private $goal;
 
     /**
+     * @Assert\Range(
+     *      min = null,
+     *      max = 180,
+     *      notInRangeMessage = "You must be between {{ min }} minutes and {{ max }} minutes time to enter",
+     * )
      * @ORM\Column(type="integer")
      */
     private $timePlayed;

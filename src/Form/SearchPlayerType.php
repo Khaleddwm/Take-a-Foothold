@@ -13,7 +13,7 @@ class SearchPlayerType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Recherche',
+                'label' => false,
             ])
         ;
     }

@@ -65,7 +65,8 @@ class PlayerRepository extends ServiceEntityRepository
             ->addSelect('pf')
             ->andWhere('p.id = :id')
             ->setParameter('id', $player)
-            ->select('p.name,
+            ->select('p.id,
+                p.name,
                 p.current_team,
                 COUNT(p.id) as matchs,
                 SUM(pf.assist) as assists,

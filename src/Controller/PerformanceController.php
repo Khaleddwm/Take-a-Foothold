@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Performance;
+use App\Entity\Player;
 use App\Form\PerformanceType;
+use App\Form\PerformancePlayerType;
 use App\Form\SearchPlayerType;
 use App\Repository\PerformanceRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +21,7 @@ class PerformanceController extends AbstractController
 {
     /**
      * @Route("/", name="performance_index", methods={"POST", "GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(PerformanceRepository $performanceRepository, Request $request): Response
     {
@@ -37,6 +41,7 @@ class PerformanceController extends AbstractController
 
     /**
      * @Route("/new", name="performance_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -49,7 +54,7 @@ class PerformanceController extends AbstractController
             $entityManager->persist($performance);
             $entityManager->flush();
 
-            return $this->redirectToRoute('performance_index');
+            return $this->redirectToRoute('player_stats', ['player' => $performance->getPlayer()->getId()]);
         }
 
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
@@ -68,7 +73,42 @@ class PerformanceController extends AbstractController
     }
 
     /**
+     * @Route("/new/{player}", name="performance_new_player", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function newWithId(Request $request, Player $player): Response
+    {
+        $performance = new Performance();
+        $form = $this->createForm(PerformancePlayerType::class, $performance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $performance->setPlayer($player);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($performance);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('player_stats', ['player' => $performance->getPlayer()->getId()]);
+        }
+
+        $searchPlayer = $this->createForm(SearchPlayerType::class,);
+        $searchPlayer->handleRequest($request);
+
+        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
+            $criteria = $searchPlayer->getData();
+            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
+        }
+
+        return $this->render('performance/new_player.html.twig', [
+            'performance' => $performance,
+            'form' => $form->createView(),
+            'search' => $searchPlayer->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="performance_show", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Performance $performance, Request $request): Response
     {
@@ -88,6 +128,7 @@ class PerformanceController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="performance_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Performance $performance): Response
     {
@@ -117,6 +158,7 @@ class PerformanceController extends AbstractController
 
     /**
      * @Route("/{id}", name="performance_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Performance $performance): Response
     {

@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\File\Exception\IniSizeFileException;
 use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 use Symfony\Component\HttpFoundation\File\Exception\PartialFileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/player")
@@ -80,7 +81,7 @@ class PlayerController extends AbstractController
     /**
      * @Route("/new", name="player_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ?UserInterface $user): Response
     {
         $player = new Player();
         $form = $this->createForm(PlayerType::class, $player);
@@ -90,8 +91,11 @@ class PlayerController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($player);
             $entityManager->flush();
-
-            return $this->redirectToRoute('player_choice_poster', ['player' => $player->getId()]);
+            if (!empty($user)) {
+                return $this->redirectToRoute('player_choice_poster', ['player' => $player->getId()]);
+            } else {
+                return $this->redirectToRoute('player_show', ['id' => $player->getId()]);
+            }
         }
 
         $searchPlayer = $this->createForm(SearchPlayerType::class,);
@@ -112,7 +116,7 @@ class PlayerController extends AbstractController
     /**
      * Upload image to library, add unique name and add the image to the player
      * @Route("/new/{player}/addposter", name="player_add_poster", methods={"GET","POST"})
-     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function newWithPoster(
         Request $request,
@@ -159,6 +163,7 @@ class PlayerController extends AbstractController
 
         return $this->render('player/add_poster.html.twig', [
             'poster' => $poster,
+            'player' => $player,
             'form' => $form->createView(),
             'search' => $searchPlayer->createView(),
         ]);
@@ -167,7 +172,7 @@ class PlayerController extends AbstractController
      /**
      * List of all posters, choice of a poster for a player
      * @Route("/new/{player}", name="player_choice_poster", methods={"GET","POST"})
-     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function choicePoster(player $player, ImageRepository $imageRepository, Request $request): Response
     {
@@ -189,7 +194,7 @@ class PlayerController extends AbstractController
     /**
      * Add a poster to an player and redirection to list of poster
      * @Route("/new/{player}/image/{image}", name="player_new_poster", methods={"GET","POST"})
-     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function addPoster(player $player, Image $image, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -241,6 +246,7 @@ class PlayerController extends AbstractController
     
     /**
      * @Route("/{id}/edit", name="player_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Player $player): Response
     {
@@ -270,6 +276,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/{id}", name="player_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Player $player): Response
     {

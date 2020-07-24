@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\SearchPlayerType;
+use App\Entity\Player;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class IndexController extends AbstractController
         }
 
         return $this->render('index.html.twig', [
-            'players' => $playerRepository->findAll(),
+            'players' => $playerRepository->findBy([], [], 5),
             'search' => $searchPlayer->createView(),
         ]);
     }

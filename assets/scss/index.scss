@@ -28,3 +28,17 @@ body {
 section {
     min-height: 800px;
 }
+
+.index .none {
+    display: none;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1224px) {
+    .index .display {
+        display: none;
+    }
+
+    .index .none {
+        display: block;
+    }
+}

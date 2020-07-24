@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1>Image index</h1>
+    <h1 class="text-center">Bibliothèque d'images</h1>
     <div class="card-deck">
     {% for image in images %}
         <div class="col-xs-12 col-lg-4">
@@ -19,8 +19,8 @@
             </div>
         </div>
     {% else %}
-        <h2 class="text-center">no records found</td>
+        <h2 class="text-center">Aucune image trouvée</td>
     {% endfor %}
     </div>
-    <a href="{{ path('image_new') }}">Create new</a>
+    <a href="{{ path('image_new') }}">Ajouter une image</a>
 {% endblock %}

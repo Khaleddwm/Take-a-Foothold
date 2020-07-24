@@ -4,10 +4,10 @@
 
 {% block body %}
     <section class="container">
-        <h1>Create new Player</h1>
+        <h1 class="text-center">Ajouter un joueur</h1>
         
         {{ include('player/_form.html.twig') }}
 
-        <a href="{{ path('player_index') }}">back to list</a>
+        <a href="{{ path('player_index') }}">Retour à la liste</a>
     </section>
 {% endblock %}

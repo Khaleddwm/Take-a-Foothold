@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PerformanceType extends AbstractType
+class PerformancePlayerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,11 +24,6 @@ class PerformanceType extends AbstractType
             ])
             ->add('timePlayed', IntegerType::class, [
                 'label' => 'Temps de jeu',
-            ])
-            ->add('player', EntityType::class, [
-                'class' => Player::class,
-                'choice_label' => 'name',
-                'label' => 'Joueur',
             ])
         ;
     }
