@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player index{% endblock %}
+
+{% block body %}
+    <section class="player">
+        <h1 class="text-center">Classement des mielleurs buteurs</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom du joueur</th>
+                    <th>Club actuel</th>
+                    <th>But(s) marqué(s)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for player in classement %}
+                <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.current_team }}</td>
+                    <td>{{ player.total }}</td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{ path('player_show', {'id': player.id}) }}">Fiche</a>
+                        {% if app.user %}
+                        <a class="btn btn-outline-primary" href="{{ path('player_edit', {'id': player.id}) }}">Modifier</a>
+                        {% endif %}
+                        <a class="btn btn-outline-primary" href="{{ path('player_stats', {'player': player.id}) }}">Stats du joueur</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12">Aucun joueur trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('player_new') }}">Ajouter un joueur</a>
+    </section>
+{% endblock %}

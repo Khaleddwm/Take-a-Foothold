@@ -22,7 +22,6 @@ class PlayerRepository extends ServiceEntityRepository
     /**
      * Recupére les joueurs recherchés via la barre de recherche
      */
-    
     public function searchPlayer($criteria)
     {
         return $this->createQueryBuilder('p')
@@ -35,9 +34,8 @@ class PlayerRepository extends ServiceEntityRepository
     }
     
     /**
-     * Recupére les joueurs recherchés via un formaulaire de recherche avancé
+     * Recupére les joueurs recherchés via un formulaire de recherche avancé
      */
-    
     public function searchPlayerAdvanced($criteria)
     {
         return $this->createQueryBuilder('p')
@@ -75,5 +73,4 @@ class PlayerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
 }

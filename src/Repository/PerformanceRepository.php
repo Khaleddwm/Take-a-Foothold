@@ -19,22 +19,38 @@ class PerformanceRepository extends ServiceEntityRepository
         parent::__construct($registry, Performance::class);
     }
 
-    // /**
-    //  * @return Performance[] Returns an array of Performance objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Classement des buteurs
+     * @return Performance[] Returns an array of Performance objects
+     */
+    public function classementGoals()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->innerJoin('p.player', 'pl')
+            ->addSelect('pl')
+            ->select('pl.id, pl.name, pl.current_team, SUM(p.goal) AS total')
+            ->groupBy('p.player')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    /**
+     * Classement des buteurs
+     * @return Performance[] Returns an array of Performance objects
+     */
+    public function classementAssists()
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.player', 'pl')
+            ->addSelect('pl')
+            ->select('pl.id, pl.name, pl.current_team, SUM(p.assist) AS total')
+            ->groupBy('p.player')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Performance
