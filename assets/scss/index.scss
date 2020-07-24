@@ -26,19 +26,29 @@ body {
 }
 
 section {
-    min-height: 800px;
+    min-height: 1250px;
 }
 
-.index .none {
+@media screen and (min-width: 1020px) {
+    section {
+        min-height: 700px;
+    }
+}
+
+.index .display {
     display: none;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1224px) {
-    .index .display {
-        display: none;
-    }
+.index .none {
+    display: block;
+}
 
-    .index .none {
+@media screen and (min-width: 1020px) {
+    .index .display {
         display: block;
+    }
+    
+    .index .none {
+        display: none;
     }
 }

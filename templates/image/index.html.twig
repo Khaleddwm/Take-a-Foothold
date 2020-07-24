@@ -3,24 +3,25 @@
 {% block title %}Image index{% endblock %}
 
 {% block body %}
-
-    <h1 class="text-center">Bibliothèque d'images</h1>
-    <div class="card-deck">
-    {% for image in images %}
-        <div class="col-xs-12 col-lg-4">
-            <div class="card">
-                <img class="card-img-top" src="{{ asset ('/uploads/images/' ~ image.path) }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{ image.name }}</h5>
-                    <p class="card-text">{{ image.description }}</p>
-                    <p class="card-text"><small class="text-muted">{{ image.path }}</small></p>
-                    {{ include('image/_delete_form.html.twig') }}
+    <section>
+        <h1 class="text-center">Bibliothèque d'images</h1>
+        <div class="card-deck">
+        {% for image in images %}
+            <div class="col-xs-12 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ asset ('/uploads/images/' ~ image.path) }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ image.name }}</h5>
+                        <p class="card-text">{{ image.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ image.path }}</small></p>
+                        {{ include('image/_delete_form.html.twig') }}
+                    </div>
                 </div>
             </div>
+        {% else %}
+            <h2 class="text-center">Aucune image trouvée</td>
+        {% endfor %}
         </div>
-    {% else %}
-        <h2 class="text-center">Aucune image trouvée</td>
-    {% endfor %}
-    </div>
-    <a href="{{ path('image_new') }}">Ajouter une image</a>
+        <a href="{{ path('image_new') }}">Ajouter une image</a>
+    </section>
 {% endblock %}
