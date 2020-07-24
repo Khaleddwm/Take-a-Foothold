@@ -25,7 +25,7 @@ class Performance
      * @Assert\NotBlank
      * @Assert\Range(
      *      min = 1850,
-     *      max = "now",
+     *      max = 2021,
      *      notInRangeMessage = "You must be between {{ min }} and {{ max }} to enter",
      * )
      * @ORM\Column(type="integer")

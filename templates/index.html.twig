@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <section class="index">
-        <h1 class="text-center">Site de referencement des meilleurs joueurs de la planete</h1>
+        <h1 class="text-center">Site de référencement des meilleurs joueurs de la planète</h1>
         <h2 class="text-center">Joueurs en forme</h2>
         {% for player in players %}
             {% if loop.index is divisible by(2) %}
