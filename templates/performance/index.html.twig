@@ -6,7 +6,7 @@
     <section>
         <h1 class="text-center">Liste des performances</h1>
 
-        <table class="table">
+        <table class="table text-white">
             <thead>
                 <tr>
                     <th>Nom du joueur</th>
@@ -26,8 +26,8 @@
                     <td>{{ performance.goal }}</td>
                     <td>{{ performance.timePlayed }}</td>
                     <td>
-                        <a href="{{ path('performance_show', {'id': performance.id}) }}">Fiche</a>
-                        <a href="{{ path('performance_edit', {'id': performance.id}) }}">Modifier</a>
+                        <a class="btn btn-outline-warning" href="{{ path('performance_show', {'id': performance.id}) }}">Fiche</a>
+                        <a class="btn btn-outline-warning" href="{{ path('performance_edit', {'id': performance.id}) }}">Modifier</a>
                     </td>
                 </tr>
             {% else %}
@@ -38,6 +38,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('performance_new') }}">Create des performances</a>
+        <a class="text-warning" href="{{ path('performance_new') }}">Ajouter des performances</a>
     </section>
 {% endblock %}
