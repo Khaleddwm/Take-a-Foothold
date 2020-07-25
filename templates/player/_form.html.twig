@@ -1,8 +1,8 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     {% if app.user %}
-        <button class="btn btn-outline-primary">{{ button_label|default('Ajouter un avatar') }}</button>
+        <button class="btn btn-outline-warning">{{ button_label|default('Ajouter un avatar') }}</button>
     {% else %}
-        <button class="btn btn-outline-primary">{{ button_label|default('Valider') }}</button>
+        <button class="btn btn-outline-warning">{{ button_label|default('Valider') }}</button>
     {% endif %}
 {{ form_end(form) }}

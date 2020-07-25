@@ -4,10 +4,9 @@
         <h1 class="text-center">Site de référencement des meilleurs joueurs de la planète</h1>
         <h2 class="text-center">Joueurs en forme</h2>
         {% for player in players %}
-            <a class="text-decoration-none text-dark" href="{{ path('player_stats', {'player': player.id}) }}">
             {% if loop.index is divisible by(2) %}
-                
-                <div class="index-card d-flex justify-content-around container">
+                <div class="index-card container">
+                <a class="text-decoration-none d-flex justify-content-around text-white" href="{{ path('player_stats', {'player': player.id}) }}">
                     <div class="display">
                         <h2 class="">{{ player.name }}</h2>
                         <h5>Date de naissance : {{ player.dateOfBirth ? player.dateOfBirth|date('d/m/Y') : '' }}</h5>
@@ -25,18 +24,18 @@
                         <h2 class="none text-center">{{ player.name }}</h2>
                     </div>
                 {% else %}
-                    <div class="">
+                    <div>
                         <img src="{{ asset ('/uploads/images/anonyme1.png') }}" />
                         <h2 class="none text-center">{{ player.name }}</h2>
                     </div>
                 {% endif %}
-                </div>
                 </a>
+                </div>
             {% else %}
-                <a class="text-decoration-none text-dark" href="{{ path('player_stats', {'player': player.id}) }}">
-                <div class="index-card d-flex justify-content-around container">
+                <div class="index-card container">
+                <a class="text-decoration-none d-flex justify-content-around text-white" href="{{ path('player_stats', {'player': player.id}) }}">
                 {% if player.poster is not empty %}
-                    <div class="">
+                    <div>
                         <img src="{{ asset ('/uploads/images/' ~ player.poster.path) }}" />
                         <h2 class="none text-center">{{ player.name }}</h2>
                     </div>
@@ -57,9 +56,9 @@
                         <h5>Prix éstimé : {{ player.price|number_format(null, null, '.') }} €</h5>
                         <h5>Poste : {{ player.position }}</h5>
                     </div>
+                    </a>
                 </div>
             {% endif %}
-            </a>
         {% endfor %}
     </section>
 {% endblock %}

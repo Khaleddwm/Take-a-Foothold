@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(rgba(247, 239, 239, 0.9), rgba(238, 233, 233, 0.9)), url("../images/background.png");
+    background: linear-gradient(rgba(71, 41, 41, 0.9), rgba(71, 41, 41, 0.9)), url("../images/background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -8,6 +8,7 @@ body {
     font-size: 25px;
     width: 100%;
     padding-top:85px;
+    color: white;
     overflow: auto;
 }
 
@@ -17,7 +18,7 @@ body {
 }
 
 .index .index-card {
-    background: linear-gradient(rgba(247, 239, 239, 0.8), rgba(238, 233, 233, 0.8)), url("../images/bg-index.jpg");
+    background: linear-gradient(rgba(71, 41, 41, 0.9), rgba(71, 41, 41, 0.9)), url("../images/bg-index.jpg");
     background-size: cover;
     background-position: center;
     width: 100%;

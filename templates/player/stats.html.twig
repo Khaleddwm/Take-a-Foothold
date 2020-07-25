@@ -7,7 +7,7 @@
         {% if playerStats.name is not empty %}
         <h1 class="text-center">Stats de {{ playerStats.name }}</h1>
 
-        <table class="table">
+        <table class="table text-white">
             <tbody>
                 <tr>
                     <th>Club actuel</th>
@@ -70,17 +70,17 @@
         </table>
         {% if app.user %}
         <div>
-            <a href="{{ path('performance_new_player', {'player': player.id}) }}">Ajouter stats</a>
+            <a class="text-warning" href="{{ path('performance_new_player', {'player': player.id}) }}">Ajouter stats</a>
         </div>
         <div>
-            <a href="{{ path('player_edit', {'id' : player.id}) }}">Modifier la fiche du joueur</a>
+            <a class="text-warning" href="{{ path('player_edit', {'id' : player.id}) }}">Modifier la fiche du joueur</a>
         </div>
         {% endif %}
         <div>
-            <a href="{{ path('player_index') }}">Liste des joueurs</a>
+            <a class="text-warning" href="{{ path('player_index') }}">Liste des joueurs</a>
         </div>
         <div>
-            <a href="{{ path('index') }}">Revenir à l'accueil</a>
+            <a class="text-warning" href="{{ path('index') }}">Revenir à l'accueil</a>
         </div>
     </section>
 

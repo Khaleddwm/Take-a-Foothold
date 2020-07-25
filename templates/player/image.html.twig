@@ -14,7 +14,7 @@
                         <h5 class="card-title">Card title</h5>
                         <p class="card-text">{{ image.description }}</p>
                         <p class="card-text"><small class="text-muted">{{ image.path }}</small></p>
-                        <a href="{{ path('player_new_poster', { 'player' : player.id, 'image' : image.id }) }}">Choisir cette image</a>
+                        <a class="btn btn-outline-dark btn-block" href="{{ path('player_new_poster', { 'player' : player.id, 'image' : image.id }) }}">Choisir cette image</a>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
         {% endfor %}
         </div>
         <div>
-            <a href="{{ path('player_add_poster', { 'player' : player.id}) }}">Ajouter une image</a>
+            <a class="text-warning" href="{{ path('player_add_poster', { 'player' : player.id}) }}">Ajouter une image</a>
         </div>
     </section>
 {% endblock %}
