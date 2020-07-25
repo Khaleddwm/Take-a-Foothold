@@ -283,6 +283,12 @@ class PlayerController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $performances = $player->getPerformance();
+            if (!empty($performances)) {
+                foreach ($performances as $performance) {
+                    $entityManager->remove($performance);
+                }
+            }
             $entityManager->remove($player);
             $entityManager->flush();
         }

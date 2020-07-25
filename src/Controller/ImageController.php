@@ -154,12 +154,16 @@ class ImageController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $players = $image->getPlayers();
-            foreach ($players as $player) {
-                $entityManager->remove($player);
+            if (!empty($players)) {
+                foreach ($players as $player) {
+                    $entityManager->remove($player);
+                }
             }
+            if (!empty($players)) {
             $players = $image->getPlayerPosters();
-            foreach ($players as $player) {
-                $entityManager->remove($player);
+                foreach ($players as $player) {
+                    $entityManager->remove($player);
+                }
             }
             $entityManager->remove($image);
             $entityManager->flush();
