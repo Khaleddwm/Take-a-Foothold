@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
@@ -56,9 +57,15 @@ class Video
      */
     private $players;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->creationDate = new DateTime();
     }
 
     public function getId(): ?int
@@ -126,6 +133,18 @@ class Video
             $this->players->removeElement($player);
             $player->removeVideo($this);
         }
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

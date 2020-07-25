@@ -6,6 +6,7 @@ use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use \DateTime;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -149,11 +150,17 @@ class Player
      */
     private $poster;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function __construct()
     {
         $this->performance = new ArrayCollection();
         $this->image = new ArrayCollection();
         $this->video = new ArrayCollection();
+        $this->creationDate = new DateTime();
     }
 
     public function getId(): ?int
@@ -360,6 +367,18 @@ class Player
     public function setPoster(?Image $poster): self
     {
         $this->poster = $poster;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

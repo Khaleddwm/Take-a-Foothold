@@ -6,6 +6,7 @@ use App\Repository\PerformanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use \DateTime;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -47,7 +48,7 @@ class Performance
     /**
      * @Assert\Range(
      *      min = null,
-     *      max = 180,
+     *      max = 120,
      *      notInRangeMessage = "You must be between {{ min }} minutes and {{ max }} minutes time to enter",
      * )
      * @ORM\Column(type="integer")
@@ -58,6 +59,16 @@ class Performance
      * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="performance")
      */
     private $player;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
+    public function __construct()
+    {
+        $this->creationDate = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +131,18 @@ class Performance
     public function setPlayer(?Player $player): self
     {
         $this->player = $player;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }
