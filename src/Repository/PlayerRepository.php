@@ -21,8 +21,12 @@ class PlayerRepository extends ServiceEntityRepository
 
     /**
      * Recupére les joueurs recherchés via la barre de recherche
+     * 
+     * @return Player[] Returns an array of Performance objects
+     * @param Player $player
+     * @return array
      */
-    public function searchPlayer($criteria)
+    public function searchPlayer($criteria) :?array
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.name LIKE :val')
@@ -35,28 +39,39 @@ class PlayerRepository extends ServiceEntityRepository
     
     /**
      * Recupére les joueurs recherchés via un formulaire de recherche avancé
+     * 
+     * @return Player[] Returns an array of Performance objects
+     * @param Player $player
+     * @return array
      */
-    public function searchPlayerAdvanced($criteria)
+    public function searchPlayerAdvanced($criteria) :?array
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.position = :position')
             ->setParameter('position', $criteria['position'])
             ->andWhere('p.bestFoot = :bestFoot')
             ->setParameter('bestFoot', $criteria['bestFoot'])
-            ->andWhere('p.weight > :minWeight')
+            ->andWhere('p.weight >= :minWeight')
             ->setParameter('minWeight', $criteria['minWeight'])
-            ->andWhere('p.weight < :maxWeight')
+            ->andWhere('p.weight <= :maxWeight')
             ->setParameter('maxWeight', $criteria['maxWeight'])
-            ->andWhere('p.price > :minPrice')
+            ->andWhere('p.price >= :minPrice')
             ->setParameter('minPrice', $criteria['minPrice'])
-            ->andWhere('p.price < :maxPrice')
+            ->andWhere('p.price <= :maxPrice')
             ->setParameter('maxPrice', $criteria['maxPrice'])
+            ->orderBy('p.price', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
 
-    public function playerStats(Player $player)
+    /**
+     * Recupére la somme de matchs, passes décisives, buts, et temps de jeu des joueurs;
+     *
+     * @param Player $player
+     * @return array
+     */
+    public function playerStats(Player $player) :?array
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.performance', 'pf')

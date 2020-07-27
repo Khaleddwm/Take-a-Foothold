@@ -96,56 +96,6 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="image_show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function show(Image $image, Request $request): Response
-    {
-        $searchPlayer = $this->createForm(SearchPlayerType::class,);
-        $searchPlayer->handleRequest($request);
-
-        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
-            $criteria = $searchPlayer->getData();
-            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
-        }
-
-        return $this->render('image/show.html.twig', [
-            'image' => $image,
-            'search' => $searchPlayer->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="image_edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function edit(Request $request, Image $image): Response
-    {
-        $form = $this->createForm(ImageType::class, $image);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('image_index');
-        }
-
-        $searchPlayer = $this->createForm(SearchPlayerType::class,);
-        $searchPlayer->handleRequest($request);
-
-        if ($searchPlayer->isSubmitted() && $searchPlayer->isValid()) {
-            $criteria = $searchPlayer->getData();
-            return $this->redirectToRoute('search_index', ['criteria' => $criteria['name']]);
-        }
-
-        return $this->render('image/edit.html.twig', [
-            'image' => $image,
-            'form' => $form->createView(),
-            'search' => $searchPlayer->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="image_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      */
@@ -153,18 +103,19 @@ class ImageController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $players = $image->getPlayerPosters();
+            if (!empty($players)) {
+                foreach ($players as $player) {
+                    $image->removePlayerPoster($player);
+                }
+            }
             $players = $image->getPlayers();
             if (!empty($players)) {
                 foreach ($players as $player) {
-                    $entityManager->remove($player);
+                    $image->removePlayer($player);
                 }
             }
-            if (!empty($players)) {
-            $players = $image->getPlayerPosters();
-                foreach ($players as $player) {
-                    $entityManager->remove($player);
-                }
-            }
+            unlink($this->getParameter('image_directory') . '/' . $image->getPath());
             $entityManager->remove($image);
             $entityManager->flush();
         }

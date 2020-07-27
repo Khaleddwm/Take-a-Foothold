@@ -149,6 +149,7 @@ class PlayerController extends AbstractController
             $poster->setPath($posterPath);
             $entityManager->persist($poster);
             $player->setPoster($poster);
+            $player->addImage($poster);
             $entityManager->flush();
             return $this->redirectToRoute('player_index');
         }
@@ -192,7 +193,7 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * Add a poster to an player and redirection to list of poster
+     * Add a poster to a player and redirection to list of poster
      * @Route("/new/{player}/image/{image}", name="player_new_poster", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
@@ -287,6 +288,12 @@ class PlayerController extends AbstractController
             if (!empty($performances)) {
                 foreach ($performances as $performance) {
                     $entityManager->remove($performance);
+                }
+            }
+            $images = $player->getImage();
+            if (!empty($images)) {
+                foreach ($images as $image) {
+                    $player->removeImage($image);
                 }
             }
             $entityManager->remove($player);
