@@ -48,6 +48,7 @@ class Video
     private $description;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $path;

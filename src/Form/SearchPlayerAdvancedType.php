@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SearchPlayerAdvancedType extends AbstractType
 {
     const WEIGHT = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
-    const PRICE = [1000000, 5000000, 1000000, 15000000, 20000000, 50000000, 75000000, 100000000, 250000000];
+    const PRICE = [0, 1000000, 5000000, 1000000, 15000000, 20000000, 50000000, 75000000, 100000000, 250000000];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {   

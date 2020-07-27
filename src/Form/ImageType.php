@@ -19,7 +19,9 @@ class ImageType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nome de l\'image',
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+            ])
             ->add('img', FileType::class, [
                 'label' => 'Image (jpg/jpeg/png file)',
                 'mapped' => false,
